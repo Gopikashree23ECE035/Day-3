@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>HTML API PROJECT</title>
+    </head>
+    <body>
+        <h1>Weather Application</h1>
+        <button id="getClick">Check Weather</button>
+        <p id="temp">To know the weather update</p>
+        <script>
+            const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your OpenWeatherMap API key
+            const temp = document.getElementById('temp');
+            const CheckWeather = document.getElementById('getClick');
+
+            // Event Listener for Button Click
+            CheckWeather.addEventListener('click', () => {
+                if ('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        const { latitude, longitude } = position.coords;
+
+                        // Store in localStorage
+                        localStorage.setItem('latitude', latitude);
+                        localStorage.setItem('longitude', longitude);
+
+                        // Construct API URL
+                        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+
+                        // Fetch API
+                        fetch(url)
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to fetch weather data');
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                // Extract weather data and update the UI
+                                const weather = `Location: ${data.name}, Temperature: ${data.main.temp}°C, Weather: ${data.weather[0].description}`;
+                                temp.textContent = weather;
+                            })
+                            .catch((error) => {
+                                console.error(error.message);
+                                temp.textContent = 'Failed to access the weather data';
+                            });
+                    }, (error) => {
+                        console.error('Error in geolocation:', error.message);
+                        temp.textContent = 'Failed to get geolocation data.';
+                    });
+                } else {
+                    console.error('Geolocation is not supported in this browser');
+                    temp.textContent = 'Geolocation is not supported in this browser';
+                }
+            });
+        </script>
+    </body>
+</html>

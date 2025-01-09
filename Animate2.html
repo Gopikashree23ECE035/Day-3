@@ -1,0 +1,45 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #8af1fa;
+            color: azure;
+        }
+
+        .animy {
+            overflow: hidden;
+            width: 80%;
+            border: 2px solid #acf6cc;
+            border-radius: 12px;
+            padding: 12px;
+            white-space: nowrap;
+            background-color: rgb(255, 119, 136);
+        }
+
+        .effect {
+            display: inline-block;
+            animation: scroll-left 10s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animy">
+        <div class="effect">Here is the scrolling text animation. Watch it move continuously!</div>
+    </div>
+</body>
+</html>
